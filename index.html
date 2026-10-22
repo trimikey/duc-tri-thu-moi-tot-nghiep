@@ -31,6 +31,7 @@
     --gold-soft: rgba(214, 168, 76, 0.16);
     --line: rgba(239, 232, 218, 0.14);
     --gold-light: #f7df9f;
+    --plate: #f7f3ea;
     --shine: rgba(255, 248, 230, 0.42);
     --ease: cubic-bezier(.2, .7, .2, 1);
     --font-display: "Cormorant Garamond", "Times New Roman", Georgia, serif;
@@ -56,6 +57,67 @@
     padding-block: 40px 56px;
     display: grid;
     gap: 48px;
+  }
+
+  /* ---------- Thanh trên: logo trường + MSSV ---------- */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    margin-bottom: -16px;
+  }
+  .school-plate {
+    display: inline-flex;
+    align-items: center;
+    background: var(--plate);
+    border-radius: 6px;
+    padding: 8px 14px;
+  }
+  .school-plate img { display: block; height: 44px; width: auto; }
+  .topbar .mssv {
+    color: var(--muted);
+    font-size: 0.82rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  /* Ảnh chân dung: khung tròn, viền vàng xoay chậm */
+  .portrait {
+    position: relative;
+    margin: 0;
+    width: 132px;
+    height: 132px;
+    border-radius: 50%;
+    padding: 4px;
+  }
+  .portrait::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, var(--gold), var(--gold-light), var(--gold), var(--gown-raised) 62%, var(--gold));
+    animation: xoay 9s linear infinite;
+  }
+  @keyframes xoay { to { transform: rotate(360deg); } }
+  .portrait .frame {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--gown);
+    background: var(--gown-raised);
+  }
+  .portrait img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.15);
+    transform-origin: 52% 54%;
   }
 
   /* ---------- Hero ---------- */
@@ -124,10 +186,14 @@
     border: 1px solid var(--line);
     border-radius: 6px;
     padding: 28px 28px 24px;
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 6px;
-    align-content: start;
     overflow: hidden;
+  }
+  /* màn hình rộng: thẻ cao bằng cột lời mời → đẩy phần đếm ngược xuống đáy thẻ */
+  @media (min-width: 761px) {
+    .datecard .countdown { margin-top: auto; }
   }
   .datecard::before {
     /* mặt phẳng mũ: dải vàng mảnh ở mép trên */
@@ -287,11 +353,13 @@
   }
 
   .invite > * { animation: hien-len .9s var(--ease) both; }
-  .invite > :nth-child(1) { animation-delay: .05s; }
-  .invite > :nth-child(2) { animation-delay: .18s; }
-  .invite > :nth-child(3) { animation-delay: .36s; }
+  .topbar { animation: hien-len .8s var(--ease) both; }
+  .invite > :nth-child(1) { animation: the-vao 1s var(--ease) .1s both; }
+  .invite > :nth-child(2) { animation-delay: .22s; }
+  .invite > :nth-child(3) { animation-delay: .34s; }
   .invite > :nth-child(4) { animation-delay: .5s; }
-  .invite > :nth-child(5) { animation-delay: .66s; }
+  .invite > :nth-child(5) { animation-delay: .62s; }
+  .invite > :nth-child(6) { animation-delay: .76s; }
   .datecard { animation: the-vao 1s var(--ease) .25s both; }
   .datecard::before { transform-origin: left; animation: vach-vang 1.1s var(--ease) .6s both; }
   .weekday { animation: hien-len .8s var(--ease) .55s both; }
@@ -342,8 +410,16 @@
 </head>
 <body>
 <main class="wrap">
+  <header class="topbar">
+    <span class="school-plate"><img src="fpt-logo.svg" alt="Trường Đại học FPT" width="113" height="44"></span>
+    <span class="mssv">Tân khoa · MSSV SE180473</span>
+  </header>
+
   <section class="hero" aria-labelledby="tieu-de">
     <div class="invite">
+      <figure class="portrait">
+        <div class="frame"><img src="tri.jpg" alt="Ảnh chân dung Lê Đức Trí" width="800" height="800"></div>
+      </figure>
       <div class="eyebrow">Thư mời chung vui</div>
       <h1 id="tieu-de">Lễ tốt nghiệp <span class="name" data-field="name">Lê Đức Trí</span></h1>
       <p class="degree"><strong>Ngành Kỹ thuật phần mềm</strong> · Trường Đại học FPT TP. Hồ Chí Minh</p>
