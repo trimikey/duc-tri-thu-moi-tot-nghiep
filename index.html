@@ -30,6 +30,9 @@
     --gold: #d6a84c;
     --gold-soft: rgba(214, 168, 76, 0.16);
     --line: rgba(239, 232, 218, 0.14);
+    --gold-light: #f7df9f;
+    --shine: rgba(255, 248, 230, 0.42);
+    --ease: cubic-bezier(.2, .7, .2, 1);
     --font-display: "Cormorant Garamond", "Times New Roman", Georgia, serif;
     --font-body: "Be Vietnam Pro", "Segoe UI", Roboto, Arial, sans-serif;
     color-scheme: dark;
@@ -83,6 +86,20 @@
     font-style: italic;
     font-weight: 600;
     color: var(--gold);
+    /* vệt ánh vàng lướt qua tên; chừa đệm để dấu tiếng Việt và nét nghiêng không bị cắt */
+    padding: 0.14em 0.12em 0.1em 0;
+    margin: -0.14em 0 -0.1em;
+    background: linear-gradient(100deg, var(--gold) 0%, var(--gold) 42%, var(--gold-light) 50%, var(--gold) 58%, var(--gold) 100%);
+    background-size: 260% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: anh-vang 6.5s ease-in-out 1.4s infinite;
+  }
+  @keyframes anh-vang {
+    0% { background-position: 100% 0; }
+    32%, 100% { background-position: 0% 0; }
   }
   .degree { margin: 0; color: var(--muted); font-size: 1rem; }
   .degree strong { color: var(--paper); font-weight: 500; }
@@ -128,7 +145,13 @@
     height: 150px;
     transform-origin: 50% 0;
     transform: rotate(-9deg);
-    animation: chuyen-tua 2.4s cubic-bezier(.3, .7, .3, 1) .3s both;
+    animation:
+      chuyen-tua 2.4s cubic-bezier(.3, .7, .3, 1) .5s both,
+      dung-dua 5s ease-in-out 2.9s infinite;
+  }
+  @keyframes dung-dua {
+    0%, 100% { transform: rotate(-9deg); }
+    50% { transform: rotate(-4deg); }
   }
   @keyframes chuyen-tua {
     0%   { transform: rotate(16deg); }
@@ -248,6 +271,63 @@
   }
   footer .sign { font-size: 1.3rem; }
 
+  /* ---------- Chuyển động ---------- */
+  @keyframes hien-len {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes the-vao {
+    from { opacity: 0; transform: translateY(22px) scale(.97); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes vach-vang { from { transform: scaleX(0); } }
+  @keyframes loe-sang {
+    0% { transform: translateX(-120%); }
+    28%, 100% { transform: translateX(120%); }
+  }
+
+  .invite > * { animation: hien-len .9s var(--ease) both; }
+  .invite > :nth-child(1) { animation-delay: .05s; }
+  .invite > :nth-child(2) { animation-delay: .18s; }
+  .invite > :nth-child(3) { animation-delay: .36s; }
+  .invite > :nth-child(4) { animation-delay: .5s; }
+  .invite > :nth-child(5) { animation-delay: .66s; }
+  .datecard { animation: the-vao 1s var(--ease) .25s both; }
+  .datecard::before { transform-origin: left; animation: vach-vang 1.1s var(--ease) .6s both; }
+  .weekday { animation: hien-len .8s var(--ease) .55s both; }
+  .bigdate { animation: hien-len .9s var(--ease) .68s both; }
+  .countdown, .tassel-caption { animation: hien-len .8s var(--ease) .9s both; }
+
+  [data-reveal] { transition: opacity .75s var(--ease), transform .75s var(--ease); }
+  [data-reveal].an { opacity: 0; transform: translateY(18px); }
+  .btn[data-reveal] {
+    transition: opacity .75s var(--ease), transform .75s var(--ease), border-color .2s, background-color .2s, color .2s;
+  }
+
+  .btn .arrow { transition: transform .25s var(--ease); }
+  .btn:hover .arrow { transform: translateX(4px); }
+  .btn.primary { position: relative; overflow: hidden; }
+  .btn.primary::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 30%, var(--shine) 50%, transparent 70%);
+    transform: translateX(-120%);
+    animation: loe-sang 5s ease-in-out 3s infinite;
+    pointer-events: none;
+  }
+  button.btn { font: inherit; cursor: pointer; width: 100%; text-align: left; }
+  button.btn:active { transform: translateY(1px); }
+
+  #phao-giay {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 20;
+  }
+
   @media (max-width: 760px) {
     .wrap { padding-block: 24px 40px; gap: 36px; }
     .hero, .details { grid-template-columns: minmax(0, 1fr); gap: 28px; }
@@ -255,8 +335,8 @@
     .row { grid-template-columns: minmax(0, 1fr); gap: 2px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .tassel { animation: none; }
-    .btn { transition: none; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .tassel { transform: rotate(-9deg); }
   }
 </style>
 </head>
@@ -293,21 +373,21 @@
 
   <section class="details">
     <div>
-      <h2>Thông tin buổi lễ</h2>
+      <h2 data-reveal>Thông tin buổi lễ</h2>
       <dl>
-        <div class="row">
+        <div class="row" data-reveal>
           <dt>Ngày</dt>
           <dd>Thứ Bảy, 07 tháng 11 năm 2026</dd>
         </div>
-        <div class="row">
+        <div class="row" data-reveal>
           <dt>Giờ</dt>
           <dd id="time-value"><span class="pending">Trí sẽ cập nhật giờ cụ thể</span></dd>
         </div>
-        <div class="row">
+        <div class="row" data-reveal>
           <dt>Địa điểm</dt>
           <dd id="venue-value">Trường Đại học FPT TP. Hồ Chí Minh<span class="sub">Lô E2a-7, Đường D1, Khu Công nghệ cao, TP. Hồ Chí Minh</span></dd>
         </div>
-        <div class="row">
+        <div class="row" data-reveal>
           <dt>Tân khoa</dt>
           <dd>Lê Đức Trí<span class="sub">MSSV SE180473 · Kỹ thuật phần mềm · Đồ án FoodResQ (SP26SE088)</span></dd>
         </div>
@@ -315,23 +395,27 @@
     </div>
 
     <div class="actions">
-      <h2>Giữ lịch giúp Trí</h2>
-      <p>Lưu ngày này vào lịch để không quên nhé.</p>
-      <a class="btn primary" id="cal-link" target="_blank" rel="noopener"
+      <h2 data-reveal>Giữ lịch giúp Trí</h2>
+      <p data-reveal>Lưu ngày này vào lịch để không quên nhé.</p>
+      <a class="btn primary" id="cal-link" data-reveal target="_blank" rel="noopener"
          href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=L%E1%BB%85%20t%E1%BB%91t%20nghi%E1%BB%87p%20c%E1%BB%A7a%20L%C3%AA%20%C4%90%E1%BB%A9c%20Tr%C3%AD&amp;dates=20261107%2F20261108">
         <span>Thêm vào Google Calendar</span><span class="arrow" aria-hidden="true">→</span>
       </a>
-      <a class="btn" id="map-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Tr%C6%B0%E1%BB%9Dng%20%C4%90%E1%BA%A1i%20h%E1%BB%8Dc%20FPT%20TP.%20H%E1%BB%93%20Ch%C3%AD%20Minh">
+      <a class="btn" id="map-link" data-reveal target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Tr%C6%B0%E1%BB%9Dng%20%C4%90%E1%BA%A1i%20h%E1%BB%8Dc%20FPT%20TP.%20H%E1%BB%93%20Ch%C3%AD%20Minh">
         <span>Chỉ đường tới nơi tổ chức</span><span class="arrow" aria-hidden="true">→</span>
       </a>
+      <button class="btn" id="tung-mu" type="button" data-reveal>
+        <span>Tung mũ chúc mừng Trí</span><span class="arrow" aria-hidden="true">✦</span>
+      </button>
     </div>
   </section>
 
-  <footer>
+  <footer data-reveal>
     <span>Hẹn gặp bạn ngày 07.11.2026</span>
     <span class="sign">Đức Trí</span>
   </footer>
 </main>
+<canvas id="phao-giay" aria-hidden="true"></canvas>
 
 <script>
   // Thông tin buổi lễ — sửa ở đây khi có giờ và địa điểm chính thức.
@@ -422,14 +506,194 @@
       }
     } else {
       const days = Math.ceil((dayStart - now) / 86_400_000);
-      num.textContent = String(days);
+      if (!countedUp && !reduceMotion) {
+        countedUp = true;
+        countUp(num, days);
+      } else if (!counting) {
+        num.textContent = String(days);
+      }
       label.textContent = days === 1 ? "ngày nữa, mai là lễ rồi" : "ngày nữa là tới lễ";
     }
   }
 
+  // ---------- Chuyển động ----------
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let countedUp = false;
+  let counting = false;
+
+  // Số ngày đếm từ 0 lên khi mở trang
+  function countUp(el, target) {
+    counting = true;
+    el.textContent = "0";
+    const delay = 900;
+    const dur = 1300;
+    setTimeout(() => {
+      const t0 = performance.now();
+      const step = (t) => {
+        const k = Math.min(1, (t - t0) / dur);
+        const eased = 1 - Math.pow(1 - k, 3);
+        el.textContent = String(Math.round(target * eased));
+        if (k < 1) requestAnimationFrame(step);
+        else counting = false;
+      };
+      requestAnimationFrame(step);
+    }, delay);
+  }
+
+  // Phần thông tin hiện dần khi cuộn tới (chỉ áp dụng cho phần đang nằm dưới màn hình)
+  if (!reduceMotion && "IntersectionObserver" in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          const el = e.target;
+          el.classList.remove("an");
+          io.unobserve(el);
+          // bỏ độ trễ sau khi hiện xong để hiệu ứng hover của nút không bị chậm
+          setTimeout(() => { el.style.transitionDelay = ""; }, 1100);
+        }
+      });
+    }, { threshold: 0.12 });
+    let i = 0;
+    document.querySelectorAll("[data-reveal]").forEach((el) => {
+      if (el.getBoundingClientRect().top > window.innerHeight * 0.94) {
+        el.classList.add("an");
+        el.style.transitionDelay = `${(i++ % 4) * 80}ms`;
+        io.observe(el);
+      }
+    });
+  }
+
+  // Pháo giấy + mũ cử nhân trên canvas
+  const canvas = document.getElementById("phao-giay");
+  const ctx = canvas.getContext("2d");
+  const PALETTE = ["#d6a84c", "#efe8da", "#f7df9f", "#a6b0c2", "#d6a84c"];
+  const GRAVITY = 520;
+  let parts = [];
+  let running = false;
+  let last = 0;
+  let W = 0;
+  let H = 0;
+
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth;
+    H = window.innerHeight;
+    canvas.width = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resize();
+  window.addEventListener("resize", resize);
+
+  function burst(x, y, count, { angle, spread, speed, capRatio }) {
+    for (let i = 0; i < count; i++) {
+      const cap = Math.random() < capRatio;
+      const a = angle + (Math.random() - 0.5) * spread;
+      const v = speed * (0.6 + Math.random() * 0.5);
+      parts.push({
+        x, y,
+        vx: Math.cos(a) * v,
+        vy: Math.sin(a) * v,
+        rot: Math.random() * Math.PI * 2,
+        vr: (Math.random() - 0.5) * (cap ? 5 : 12),
+        flip: Math.random() * Math.PI * 2,
+        size: cap ? 18 + Math.random() * 8 : 6 + Math.random() * 6,
+        cap,
+        color: PALETTE[(Math.random() * PALETTE.length) | 0],
+        life: 0,
+        ttl: 3.2 + Math.random() * 1.6,
+      });
+    }
+    if (!running) {
+      running = true;
+      last = performance.now();
+      requestAnimationFrame(frame);
+    }
+  }
+
+  function drawCap(p) {
+    const s = p.size;
+    // mặt mũ (hình thoi)
+    ctx.fillStyle = "#efe8da";
+    ctx.beginPath();
+    ctx.moveTo(0, -s * 0.28);
+    ctx.lineTo(s * 0.5, 0);
+    ctx.lineTo(0, s * 0.28);
+    ctx.lineTo(-s * 0.5, 0);
+    ctx.closePath();
+    ctx.fill();
+    // thân mũ
+    ctx.fillStyle = "#a6b0c2";
+    ctx.fillRect(-s * 0.26, s * 0.1, s * 0.52, s * 0.22);
+    // tua
+    ctx.strokeStyle = "#d6a84c";
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(s * 0.38, s * 0.05);
+    ctx.lineTo(s * 0.38, s * 0.42);
+    ctx.stroke();
+    ctx.fillStyle = "#d6a84c";
+    ctx.fillRect(s * 0.32, s * 0.4, s * 0.12, s * 0.16);
+  }
+
+  function frame(t) {
+    const dt = Math.min(0.033, (t - last) / 1000);
+    last = t;
+    ctx.clearRect(0, 0, W, H);
+    parts = parts.filter((p) => p.life < p.ttl && p.y < H + 60);
+    for (const p of parts) {
+      p.life += dt;
+      p.vy += GRAVITY * dt * (p.cap ? 0.9 : 0.6);
+      const drag = Math.pow(p.cap ? 0.55 : 0.3, dt);
+      p.vx *= drag;
+      p.vy = Math.min(p.vy * drag, p.cap ? 340 : 170);
+      p.x += p.vx * dt + Math.sin(p.flip + p.life * 4) * (p.cap ? 0.3 : 0.8);
+      p.y += p.vy * dt;
+      p.rot += p.vr * dt;
+      const alpha = Math.min(1, (p.ttl - p.life) / 0.8);
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      if (p.cap) {
+        drawCap(p);
+      } else {
+        ctx.scale(1, Math.cos(p.flip + p.life * 9));
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size / 2, -p.size * 0.22, p.size, p.size * 0.44);
+      }
+      ctx.restore();
+    }
+    if (parts.length) {
+      requestAnimationFrame(frame);
+    } else {
+      running = false;
+      ctx.clearRect(0, 0, W, H);
+    }
+  }
+
+  // Hai "ống pháo" ở hai góc dưới bắn chéo lên khi mở trang
+  function celebrate() {
+    const speed = Math.sqrt(2 * GRAVITY * 0.6 * H) * 2.4;
+    const narrow = W < 600;
+    const n = narrow ? 45 : 70;
+    const tilt = narrow ? 0.25 : 0.55; // màn hình hẹp: bắn dốc hơn để pháo không văng qua mép kia
+    burst(-10, H + 10, n, { angle: -Math.PI / 2 + tilt, spread: 0.5, speed, capRatio: 0.1 });
+    burst(W + 10, H + 10, n, { angle: -Math.PI / 2 - tilt, spread: 0.5, speed, capRatio: 0.1 });
+  }
+
+  // Nút "Tung mũ": mũ bay lên từ chính nút bấm
+  document.getElementById("tung-mu").addEventListener("click", (e) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    const speed = Math.sqrt(2 * GRAVITY * 0.55 * H) * 1.7;
+    burst(r.left + r.width / 2, r.top, 46, { angle: -Math.PI / 2, spread: 1.4, speed, capRatio: 0.45 });
+  });
+
   render();
   tick();
   setInterval(tick, 30_000);
+  if (!reduceMotion) setTimeout(celebrate, 1100);
 </script>
 </body>
 </html>
