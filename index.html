@@ -32,6 +32,9 @@
     --line: rgba(239, 232, 218, 0.14);
     --gold-light: #f7df9f;
     --plate: #f7f3ea;
+    --gold-hair: rgba(214, 168, 76, 0.32);
+    --glow-gold: rgba(214, 168, 76, 0.11);
+    --glow-blue: rgba(86, 118, 186, 0.14);
     --shine: rgba(255, 248, 230, 0.42);
     --ease: cubic-bezier(.2, .7, .2, 1);
     --font-display: "Cormorant Garamond", "Times New Roman", Georgia, serif;
@@ -41,7 +44,10 @@
 
   html { background: var(--gown); }
   body {
-    background: var(--gown);
+    background:
+      radial-gradient(900px 560px at 80% -6%, var(--glow-gold), transparent 65%),
+      radial-gradient(760px 620px at -6% 34%, var(--glow-blue), transparent 70%),
+      var(--gown);
     color: var(--paper);
     font-family: var(--font-body);
     font-size: 16px;
@@ -57,6 +63,116 @@
     padding-block: 40px 56px;
     display: grid;
     gap: 48px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Sao lấp lánh phía sau nội dung */
+  #sao {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Vòng nguyệt quế quanh ảnh */
+  .portrait-wrap {
+    position: relative;
+    width: 178px;
+    height: 178px;
+    margin: -10px 0 -6px -18px;
+    display: grid;
+    place-items: center;
+  }
+  @media (max-width: 760px) {
+    .portrait-wrap { margin-left: -8px; }
+  }
+  .laurel { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .laurel .leaf {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: la-moc .6s var(--ease) both;
+  }
+  @keyframes la-moc { from { opacity: 0; transform: scale(0); } }
+
+  /* Con dấu tròn có chữ xoay */
+  .seal {
+    align-self: flex-end;
+    width: 118px;
+    height: 118px;
+    margin-top: 10px;
+    animation: hien-len .9s var(--ease) 1s both;
+  }
+  .seal .ring-text {
+    transform-box: view-box;
+    transform-origin: 60px 60px;
+    animation: xoay 40s linear infinite;
+  }
+  .seal text {
+    font-family: var(--font-body);
+    font-size: 8.6px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    fill: var(--gold);
+  }
+
+  /* Dải phân cách có mũ cử nhân */
+  .ornament {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--gold);
+  }
+  .ornament::before, .ornament::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-hair));
+  }
+  .ornament::after { background: linear-gradient(90deg, var(--gold-hair), transparent); }
+  .ornament svg { width: 44px; height: 26px; flex: none; }
+
+  /* Lời cảm ơn */
+  .thanks {
+    position: relative;
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 34px 28px 30px;
+    text-align: center;
+    border: 1px solid var(--gold-hair);
+    border-radius: 6px;
+    background: linear-gradient(180deg, var(--gold-soft), transparent 75%);
+  }
+  .thanks .mark {
+    position: absolute;
+    top: -26px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0 12px;
+    background: var(--gown);
+    font-family: var(--font-display);
+    font-size: 3.4rem;
+    line-height: 1;
+    color: var(--gold);
+  }
+  .thanks p {
+    margin: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(1.25rem, 2.6vw, 1.6rem);
+    line-height: 1.45;
+    text-wrap: balance;
+  }
+  .thanks .who {
+    margin-top: 12px;
+    font-family: var(--font-body);
+    font-style: normal;
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
   }
 
   /* ---------- Thanh trên: logo trường + MSSV ---------- */
@@ -190,6 +306,8 @@
     flex-direction: column;
     gap: 6px;
     overflow: hidden;
+    /* khung viền mảnh bên trong như tấm bằng */
+    box-shadow: inset 0 0 0 8px var(--gown-raised), inset 0 0 0 9px var(--gold-hair);
   }
   /* màn hình rộng: thẻ cao bằng cột lời mời → đẩy phần đếm ngược xuống đáy thẻ */
   @media (min-width: 761px) {
@@ -417,9 +535,12 @@
 
   <section class="hero" aria-labelledby="tieu-de">
     <div class="invite">
-      <figure class="portrait">
-        <div class="frame"><img src="tri.jpg" alt="Ảnh chân dung Lê Đức Trí" width="800" height="800"></div>
-      </figure>
+      <div class="portrait-wrap">
+        <svg class="laurel" id="laurel" viewBox="0 0 200 200" aria-hidden="true"></svg>
+        <figure class="portrait">
+          <div class="frame"><img src="tri.jpg" alt="Ảnh chân dung Lê Đức Trí" width="800" height="800"></div>
+        </figure>
+      </div>
       <div class="eyebrow">Thư mời chung vui</div>
       <h1 id="tieu-de">Lễ tốt nghiệp <span class="name" data-field="name">Lê Đức Trí</span></h1>
       <p class="degree"><strong>Ngành Kỹ thuật phần mềm</strong> · Trường Đại học FPT TP. Hồ Chí Minh</p>
@@ -439,6 +560,22 @@
       </svg>
       <div class="weekday">Thứ Bảy</div>
       <div class="bigdate">07.11<span class="year">2026</span></div>
+      <svg class="seal" viewBox="0 0 120 120" aria-hidden="true">
+        <defs>
+          <path id="seal-path" d="M60 60 m-47 0 a47 47 0 1 1 94 0 a47 47 0 1 1 -94 0"/>
+        </defs>
+        <circle cx="60" cy="60" r="58" fill="none" stroke="#d6a84c" stroke-width="1.2"/>
+        <circle cx="60" cy="60" r="36" fill="none" stroke="#d6a84c" stroke-width="0.8" opacity=".6"/>
+        <g class="ring-text">
+          <text><textPath href="#seal-path" textLength="290" lengthAdjust="spacing">TÂN KHOA 2026 ✦ KỸ THUẬT PHẦN MỀM ✦ ĐẠI HỌC FPT ✦</textPath></text>
+        </g>
+        <g fill="#d6a84c">
+          <path d="M60 46 80 55 60 64 40 55Z"/>
+          <path d="M48 60v7c0 3 5 6 12 6s12-3 12-6v-7l-12 5.5Z" opacity=".85"/>
+          <path d="M76 57v11" stroke="#d6a84c" stroke-width="1.4"/>
+          <path d="M74 68h4l1 6h-6Z"/>
+        </g>
+      </svg>
       <div class="countdown" id="countdown" aria-live="polite">
         <span class="num" id="cd-num">16</span>
         <span class="label" id="cd-label">ngày nữa là tới lễ</span>
@@ -446,6 +583,16 @@
       <p class="tassel-caption">Tua mũ chuyển từ phải sang trái: khoảnh khắc chính thức thành tân khoa.</p>
     </aside>
   </section>
+
+  <div class="ornament" aria-hidden="true">
+    <svg viewBox="0 0 44 26">
+      <circle cx="3" cy="13" r="1.6" fill="#d6a84c"/>
+      <path d="M22 3 36 9.5 22 16 8 9.5Z" fill="#d6a84c"/>
+      <path d="M14 13v5c0 2 3.6 4 8 4s8-2 8-4v-5l-8 3.6Z" fill="#d6a84c" opacity=".8"/>
+      <path d="M33 11v8" stroke="#d6a84c" stroke-width="1.2"/>
+      <circle cx="41" cy="13" r="1.6" fill="#d6a84c"/>
+    </svg>
+  </div>
 
   <section class="details">
     <div>
@@ -486,11 +633,18 @@
     </div>
   </section>
 
+  <section class="thanks" data-reveal>
+    <span class="mark" aria-hidden="true">“</span>
+    <p>Cảm ơn gia đình, thầy cô và bạn bè đã đi cùng Trí suốt những năm học. Ngày 07.11 sẽ trọn vẹn hơn khi có bạn ở đó.</p>
+    <p class="who">Lê Đức Trí · K18 Kỹ thuật phần mềm</p>
+  </section>
+
   <footer data-reveal>
     <span>Hẹn gặp bạn ngày 07.11.2026</span>
     <span class="sign">Đức Trí</span>
   </footer>
 </main>
+<canvas id="sao" aria-hidden="true"></canvas>
 <canvas id="phao-giay" aria-hidden="true"></canvas>
 
 <script>
@@ -764,6 +918,120 @@
     const r = e.currentTarget.getBoundingClientRect();
     const speed = Math.sqrt(2 * GRAVITY * 0.55 * H) * 1.7;
     burst(r.left + r.width / 2, r.top, 46, { angle: -Math.PI / 2, spread: 1.4, speed, capRatio: 0.45 });
+  });
+
+  // ---------- Trang trí ----------
+  // Vòng nguyệt quế: hai cành mọc từ đáy vòng lên, chừa khoảng trống phía trên
+  (function buildLaurel() {
+    const svg = document.getElementById("laurel");
+    const NS = "http://www.w3.org/2000/svg";
+    const cx = 100, cy = 100, r = 84;
+    const rad = (d) => (d * Math.PI) / 180;
+    const pt = (deg) => [cx + r * Math.cos(rad(deg)), cy + r * Math.sin(rad(deg))];
+    const el = (tag, attrs, parent = svg) => {
+      const n = document.createElementNS(NS, tag);
+      for (const k in attrs) n.setAttribute(k, attrs[k]);
+      parent.appendChild(n);
+      return n;
+    };
+    const START = 102, END = 236, LEAVES = 11;
+    for (const side of [1, -1]) { // 1 = cành trái, -1 = cành phải (lật gương)
+      const mx = (x) => (side === 1 ? x : 200 - x);
+      const [sx, sy] = pt(START);
+      const [ex, ey] = pt(END);
+      el("path", {
+        d: `M${mx(sx).toFixed(1)} ${sy.toFixed(1)} A${r} ${r} 0 0 ${side === 1 ? 1 : 0} ${mx(ex).toFixed(1)} ${ey.toFixed(1)}`,
+        fill: "none", stroke: "#d6a84c", "stroke-width": "1.3", opacity: ".8",
+      });
+      for (let i = 0; i < LEAVES; i++) {
+        const t = i / (LEAVES - 1);
+        const deg = START + 4 + t * (END - START - 6);
+        const [px, py] = pt(deg);
+        const tangent = (Math.atan2(Math.cos(rad(deg)), -Math.sin(rad(deg))) * 180) / Math.PI;
+        const rx = 9.5 - t * 3.2;
+        const ry = 3.7 - t * 1.1;
+        for (const [tilt, light] of [[-32, i % 3 === 0], [32, false]]) {
+          const dir = tangent + tilt;
+          const lx = px + Math.cos(rad(dir)) * rx * 0.85;
+          const ly = py + Math.sin(rad(dir)) * rx * 0.85;
+          const rot = side === 1 ? dir : 180 - dir;
+          // nhóm giữ vị trí + góc; hiệu ứng "mọc" chỉ phóng to chiếc lá bên trong
+          const g = el("g", { transform: `translate(${mx(lx).toFixed(1)} ${ly.toFixed(1)}) rotate(${rot.toFixed(1)})` });
+          const leaf = el("ellipse", {
+            class: "leaf",
+            cx: "0", cy: "0",
+            rx: rx.toFixed(1), ry: ry.toFixed(1),
+            fill: light ? "#f7df9f" : "#d6a84c",
+            opacity: (0.75 + 0.25 * (1 - t)).toFixed(2),
+          }, g);
+          leaf.style.animationDelay = `${(0.3 + t * 0.9 + (tilt > 0 ? 0.06 : 0)).toFixed(2)}s`;
+        }
+        if (i % 3 === 1) {
+          const [bx, by] = [cx + (r + 9) * Math.cos(rad(deg)), cy + (r + 9) * Math.sin(rad(deg))];
+          const berry = el("circle", { class: "leaf", cx: mx(bx).toFixed(1), cy: by.toFixed(1), r: "1.8", fill: "#f7df9f" });
+          berry.style.animationDelay = `${(0.4 + t * 0.9).toFixed(2)}s`;
+        }
+      }
+    }
+  })();
+
+  // Sao lấp lánh trên nền (toạ độ chuẩn hoá để đổi kích thước không làm sao nhảy chỗ)
+  const sky = document.getElementById("sao");
+  const sctx = sky.getContext("2d");
+  const stars = Array.from({ length: Math.round(Math.min(110, (window.innerWidth * window.innerHeight) / 12000)) }, () => ({
+    nx: Math.random(),
+    ny: Math.random(),
+    r: 0.5 + Math.random() * 1.1,
+    base: 0.18 + Math.random() * 0.45,
+    sp: 0.5 + Math.random() * 1.4,
+    ph: Math.random() * Math.PI * 2,
+    gold: Math.random() < 0.35,
+    spark: Math.random() < 0.09,
+  }));
+  let SW = 0, SH = 0;
+  function sizeSky() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    SW = window.innerWidth;
+    SH = window.innerHeight;
+    sky.width = Math.round(SW * dpr);
+    sky.height = Math.round(SH * dpr);
+    sctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function drawSky(t) {
+    sctx.clearRect(0, 0, SW, SH);
+    for (const s of stars) {
+      const a = reduceMotion ? s.base : s.base * (0.5 + 0.5 * Math.sin((t / 1000) * s.sp + s.ph));
+      sctx.globalAlpha = Math.max(0, a);
+      sctx.fillStyle = s.gold ? "#f7df9f" : "#efe8da";
+      const x = s.nx * SW, y = s.ny * SH;
+      if (s.spark) {
+        const L = s.r * 4.5;
+        sctx.fillRect(x - L, y - 0.4, L * 2, 0.8);
+        sctx.fillRect(x - 0.4, y - L, 0.8, L * 2);
+      }
+      sctx.beginPath();
+      sctx.arc(x, y, s.r, 0, Math.PI * 2);
+      sctx.fill();
+    }
+    sctx.globalAlpha = 1;
+  }
+  sizeSky();
+  window.addEventListener("resize", () => { sizeSky(); drawSky(performance.now()); });
+  if (reduceMotion) {
+    drawSky(0);
+  } else {
+    let skyLast = 0;
+    const skyLoop = (t) => {
+      if (t - skyLast > 50) { drawSky(t); skyLast = t; }
+      requestAnimationFrame(skyLoop);
+    };
+    requestAnimationFrame(skyLoop);
+  }
+
+  // Chạm vào chỗ trống trên trang: bung một chùm pháo giấy nhỏ
+  document.addEventListener("pointerdown", (e) => {
+    if (reduceMotion || e.target.closest("a, button")) return;
+    burst(e.clientX, e.clientY, 14, { angle: -Math.PI / 2, spread: Math.PI * 1.6, speed: 320, capRatio: 0 });
   });
 
   render();
