@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Lễ Tốt Nghiệp Đức Trí</title>
+<meta name="description" content="Trí trân trọng mời bạn đến chung vui lễ tốt nghiệp ngành Kỹ thuật phần mềm, Thứ Bảy 07.11.2026 tại Trường Đại học FPT TP. Hồ Chí Minh.">
+<meta name="theme-color" content="#0f1a2d">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:url" content="https://trimikey.github.io/tot-nghiep/">
+<meta property="og:title" content="Thư mời dự lễ tốt nghiệp của Lê Đức Trí">
+<meta property="og:description" content="Thứ Bảy, 07.11.2026 · Trường Đại học FPT TP. Hồ Chí Minh">
+<meta property="og:image" content="https://trimikey.github.io/tot-nghiep/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2212%22%20fill%3D%22%230f1a2d%22%2F%3E%3Cpath%20d%3D%22M32%2014%2058%2026%2032%2038%206%2026Z%22%20fill%3D%22%23efe8da%22%2F%3E%3Cpath%20d%3D%22M18%2032v10c0%204%206%208%2014%208s14-4%2014-8V32l-14%206Z%22%20fill%3D%22%23efe8da%22%20opacity%3D%22.85%22%2F%3E%3Cpath%20d%3D%22M52%2028v16%22%20stroke%3D%22%23d6a84c%22%20stroke-width%3D%223%22%2F%3E%3Cpath%20d%3D%22M48%2044h8l2%2010H46Z%22%20fill%3D%22%23d6a84c%22%2F%3E%3C%2Fsvg%3E">
+<style>*,*::before,*::after{box-sizing:border-box}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Be+Vietnam+Pro:wght@400;500;600&display=swap">
+<style>
+  /* Bố cục: thiệp một trang trên nền "áo lễ" xanh mực; hero chia đôi (lời mời | ngày + tua mũ), chi tiết dạng bảng nhãn–giá trị. Chỉ một giao diện tối, chủ ý. */
+  :root {
+    --gown: #0f1a2d;
+    --gown-raised: #16233b;
+    --paper: #efe8da;
+    --muted: #a6b0c2;
+    --gold: #d6a84c;
+    --gold-soft: rgba(214, 168, 76, 0.16);
+    --line: rgba(239, 232, 218, 0.14);
+    --font-display: "Cormorant Garamond", "Times New Roman", Georgia, serif;
+    --font-body: "Be Vietnam Pro", "Segoe UI", Roboto, Arial, sans-serif;
+    color-scheme: dark;
+  }
+
+  html { background: var(--gown); }
+  body {
+    background: var(--gown);
+    color: var(--paper);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 40px 56px;
+    display: grid;
+    gap: 48px;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: 40px;
+    align-items: stretch;
+  }
+  .invite { display: grid; gap: 20px; align-content: start; min-width: 0; padding-top: 12px; }
+  .eyebrow {
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  h1 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(2.6rem, 6.4vw, 4.6rem);
+    line-height: 1.02;
+    text-wrap: balance;
+  }
+  h1 .name {
+    display: block;
+    font-style: italic;
+    font-weight: 600;
+    color: var(--gold);
+  }
+  .degree { margin: 0; color: var(--muted); font-size: 1rem; }
+  .degree strong { color: var(--paper); font-weight: 500; }
+  .note {
+    margin: 4px 0 0;
+    max-width: 34em;
+    font-size: 1.04rem;
+    color: var(--paper);
+  }
+  .sign {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--gold);
+  }
+
+  /* Khối ngày: mặt "mũ cử nhân" với tua treo */
+  .datecard {
+    position: relative;
+    min-width: 0;
+    background: var(--gown-raised);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 28px 28px 24px;
+    display: grid;
+    gap: 6px;
+    align-content: start;
+    overflow: hidden;
+  }
+  .datecard::before {
+    /* mặt phẳng mũ: dải vàng mảnh ở mép trên */
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 4px;
+    background: var(--gold);
+  }
+  .tassel {
+    position: absolute;
+    top: 0;
+    right: 30px;
+    width: 46px;
+    height: 150px;
+    transform-origin: 50% 0;
+    transform: rotate(-9deg);
+    animation: chuyen-tua 2.4s cubic-bezier(.3, .7, .3, 1) .3s both;
+  }
+  @keyframes chuyen-tua {
+    0%   { transform: rotate(16deg); }
+    45%  { transform: rotate(-16deg); }
+    70%  { transform: rotate(-5deg); }
+    85%  { transform: rotate(-11deg); }
+    100% { transform: rotate(-9deg); }
+  }
+  .weekday {
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .bigdate {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(4.2rem, 11vw, 6.6rem);
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+    font-variant-numeric: lining-nums tabular-nums;
+    padding-right: 52px;
+  }
+  .bigdate .year { display: block; font-size: 0.42em; color: var(--muted); letter-spacing: 0.04em; margin-top: 8px; }
+  .countdown {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .countdown .num {
+    font-family: var(--font-display);
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .countdown .label { color: var(--muted); }
+  .tassel-caption {
+    margin: 10px 0 0;
+    font-size: 0.86rem;
+    color: var(--muted);
+  }
+
+  /* ---------- Chi tiết ---------- */
+  .details {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: 40px;
+    align-items: start;
+  }
+  h2 {
+    margin: 0 0 14px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.9rem;
+    line-height: 1.15;
+  }
+  dl { margin: 0; display: grid; }
+  .row {
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+    gap: 16px;
+    padding-block: 14px;
+    border-top: 1px solid var(--line);
+  }
+  .row:last-child { border-bottom: 1px solid var(--line); }
+  dt {
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+    padding-top: 3px;
+  }
+  dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+  dd .sub { display: block; color: var(--muted); font-size: 0.92rem; }
+  .pending { color: var(--muted); font-style: italic; }
+
+  .actions { display: grid; gap: 12px; align-content: start; }
+  .actions h2 { margin-bottom: 4px; }
+  .actions p { margin: 0 0 6px; color: var(--muted); }
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 18px;
+    border-radius: 6px;
+    border: 1px solid var(--line);
+    color: var(--paper);
+    text-decoration: none;
+    font-weight: 500;
+    background: transparent;
+    transition: border-color .2s, background-color .2s;
+  }
+  .btn.primary { background: var(--gold); border-color: var(--gold); color: var(--gown); }
+  .btn:hover { border-color: var(--gold); background: var(--gold-soft); }
+  .btn.primary:hover { background: var(--paper); border-color: var(--paper); }
+  .btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+  .btn .arrow { font-size: 1.1rem; line-height: 1; }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  footer .sign { font-size: 1.3rem; }
+
+  @media (max-width: 760px) {
+    .wrap { padding-block: 24px 40px; gap: 36px; }
+    .hero, .details { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+    .invite { padding-top: 0; }
+    .row { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tassel { animation: none; }
+    .btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <section class="hero" aria-labelledby="tieu-de">
+    <div class="invite">
+      <div class="eyebrow">Thư mời chung vui</div>
+      <h1 id="tieu-de">Lễ tốt nghiệp <span class="name" data-field="name">Lê Đức Trí</span></h1>
+      <p class="degree"><strong>Ngành Kỹ thuật phần mềm</strong> · Trường Đại học FPT TP. Hồ Chí Minh</p>
+      <p class="note">
+        Sau những năm học, những đêm chạy deadline và đồ án FoodResQ, Trí sắp được đội mũ cử nhân và chuyển tua.
+        Trí rất mong có bạn ở đó để cùng chụp chung một tấm ảnh và chia vui trong ngày này.
+      </p>
+      <div class="sign">— Đức Trí</div>
+    </div>
+
+    <aside class="datecard" aria-label="Ngày tổ chức">
+      <svg class="tassel" viewBox="0 0 46 150" aria-hidden="true">
+        <line x1="23" y1="0" x2="23" y2="86" stroke="#d6a84c" stroke-width="2.5"/>
+        <circle cx="23" cy="90" r="7" fill="#d6a84c"/>
+        <path d="M14 96 H32 L38 148 H8 Z" fill="#d6a84c"/>
+        <path d="M17 104 V146 M23 104 V147 M29 104 V146" stroke="#0f1a2d" stroke-width="1.2" opacity=".35"/>
+      </svg>
+      <div class="weekday">Thứ Bảy</div>
+      <div class="bigdate">07.11<span class="year">2026</span></div>
+      <div class="countdown" id="countdown" aria-live="polite">
+        <span class="num" id="cd-num">16</span>
+        <span class="label" id="cd-label">ngày nữa là tới lễ</span>
+      </div>
+      <p class="tassel-caption">Tua mũ chuyển từ phải sang trái: khoảnh khắc chính thức thành tân khoa.</p>
+    </aside>
+  </section>
+
+  <section class="details">
+    <div>
+      <h2>Thông tin buổi lễ</h2>
+      <dl>
+        <div class="row">
+          <dt>Ngày</dt>
+          <dd>Thứ Bảy, 07 tháng 11 năm 2026</dd>
+        </div>
+        <div class="row">
+          <dt>Giờ</dt>
+          <dd id="time-value"><span class="pending">Trí sẽ cập nhật giờ cụ thể</span></dd>
+        </div>
+        <div class="row">
+          <dt>Địa điểm</dt>
+          <dd id="venue-value">Trường Đại học FPT TP. Hồ Chí Minh<span class="sub">Lô E2a-7, Đường D1, Khu Công nghệ cao, TP. Hồ Chí Minh</span></dd>
+        </div>
+        <div class="row">
+          <dt>Tân khoa</dt>
+          <dd>Lê Đức Trí<span class="sub">MSSV SE180473 · Kỹ thuật phần mềm · Đồ án FoodResQ (SP26SE088)</span></dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="actions">
+      <h2>Giữ lịch giúp Trí</h2>
+      <p>Lưu ngày này vào lịch để không quên nhé.</p>
+      <a class="btn primary" id="cal-link" target="_blank" rel="noopener"
+         href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=L%E1%BB%85%20t%E1%BB%91t%20nghi%E1%BB%87p%20c%E1%BB%A7a%20L%C3%AA%20%C4%90%E1%BB%A9c%20Tr%C3%AD&amp;dates=20261107%2F20261108">
+        <span>Thêm vào Google Calendar</span><span class="arrow" aria-hidden="true">→</span>
+      </a>
+      <a class="btn" id="map-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Tr%C6%B0%E1%BB%9Dng%20%C4%90%E1%BA%A1i%20h%E1%BB%8Dc%20FPT%20TP.%20H%E1%BB%93%20Ch%C3%AD%20Minh">
+        <span>Chỉ đường tới nơi tổ chức</span><span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <span>Hẹn gặp bạn ngày 07.11.2026</span>
+    <span class="sign">Đức Trí</span>
+  </footer>
+</main>
+
+<script>
+  // Thông tin buổi lễ — sửa ở đây khi có giờ và địa điểm chính thức.
+  const EVENT = {
+    name: "Lê Đức Trí",
+    date: { y: 2026, m: 11, d: 7 },
+    time: "",          // ví dụ "08:00"
+    endTime: "",       // ví dụ "11:30"
+    venue: "Trường Đại học FPT TP. Hồ Chí Minh",
+    venueAddress: "Lô E2a-7, Đường D1, Khu Công nghệ cao, TP. Hồ Chí Minh",
+    mapQuery: "Trường Đại học FPT TP. Hồ Chí Minh",
+  };
+
+  const pad = (n) => String(n).padStart(2, "0");
+
+  // Giờ Việt Nam (UTC+7) → mốc UTC
+  function vnToUtc(hhmm) {
+    const [h, mi] = (hhmm || "00:00").split(":").map(Number);
+    return Date.UTC(EVENT.date.y, EVENT.date.m - 1, EVENT.date.d, h - 7, mi || 0);
+  }
+
+  function gcalStamp(ms) {
+    const t = new Date(ms);
+    return t.getUTCFullYear() + pad(t.getUTCMonth() + 1) + pad(t.getUTCDate()) + "T" +
+      pad(t.getUTCHours()) + pad(t.getUTCMinutes()) + "00Z";
+  }
+
+  function render() {
+    const timeEl = document.getElementById("time-value");
+    if (EVENT.time) {
+      timeEl.textContent = EVENT.endTime ? `${EVENT.time} – ${EVENT.endTime}` : EVENT.time;
+    }
+
+    const venueEl = document.getElementById("venue-value");
+    const mapLink = document.getElementById("map-link");
+    if (EVENT.venue) {
+      venueEl.textContent = EVENT.venue;
+      if (EVENT.venueAddress) {
+        const sub = document.createElement("span");
+        sub.className = "sub";
+        sub.textContent = EVENT.venueAddress;
+        venueEl.appendChild(sub);
+      }
+      mapLink.href = "https://www.google.com/maps/search/?api=1&query=" +
+        encodeURIComponent(EVENT.mapQuery || EVENT.venueAddress || EVENT.venue);
+      mapLink.hidden = false;
+    }
+
+    const ymd = `${EVENT.date.y}${pad(EVENT.date.m)}${pad(EVENT.date.d)}`;
+    const nextDay = new Date(Date.UTC(EVENT.date.y, EVENT.date.m - 1, EVENT.date.d + 1));
+    const ymdNext = `${nextDay.getUTCFullYear()}${pad(nextDay.getUTCMonth() + 1)}${pad(nextDay.getUTCDate())}`;
+    let dates = `${ymd}/${ymdNext}`;
+    if (EVENT.time) {
+      const start = vnToUtc(EVENT.time);
+      const end = EVENT.endTime ? vnToUtc(EVENT.endTime) : start + 3 * 3600_000;
+      dates = `${gcalStamp(start)}/${gcalStamp(end)}`;
+    }
+    const params = new URLSearchParams({
+      action: "TEMPLATE",
+      text: `Lễ tốt nghiệp của ${EVENT.name}`,
+      dates,
+      details: `Lễ tốt nghiệp ngành Kỹ thuật phần mềm của ${EVENT.name}, Trường Đại học FPT TP. Hồ Chí Minh. Hẹn gặp bạn!`,
+    });
+    const loc = [EVENT.venue, EVENT.venueAddress].filter(Boolean).join(", ");
+    if (loc) params.set("location", loc);
+    document.getElementById("cal-link").href = "https://calendar.google.com/calendar/render?" + params.toString();
+  }
+
+  function tick() {
+    const num = document.getElementById("cd-num");
+    const label = document.getElementById("cd-label");
+    const now = Date.now();
+    const dayStart = vnToUtc("00:00");
+    const dayEnd = dayStart + 24 * 3600_000;
+    const start = EVENT.time ? vnToUtc(EVENT.time) : dayStart;
+
+    if (now >= dayEnd) {
+      num.textContent = "07.11";
+      label.textContent = "Cảm ơn bạn đã đến chung vui cùng Trí";
+    } else if (now >= dayStart) {
+      if (EVENT.time && now < start) {
+        const mins = Math.ceil((start - now) / 60_000);
+        num.textContent = mins >= 60 ? `${Math.floor(mins / 60)}:${pad(mins % 60)}` : String(mins);
+        label.textContent = mins >= 60 ? "giờ nữa là bắt đầu" : "phút nữa là bắt đầu";
+      } else {
+        num.textContent = "Hôm nay";
+        label.textContent = "là ngày lễ, hẹn gặp bạn";
+      }
+    } else {
+      const days = Math.ceil((dayStart - now) / 86_400_000);
+      num.textContent = String(days);
+      label.textContent = days === 1 ? "ngày nữa, mai là lễ rồi" : "ngày nữa là tới lễ";
+    }
+  }
+
+  render();
+  tick();
+  setInterval(tick, 30_000);
+</script>
+</body>
+</html>
