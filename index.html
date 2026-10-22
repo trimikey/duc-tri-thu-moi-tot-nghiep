@@ -36,10 +36,29 @@
     --glow-gold: rgba(214, 168, 76, 0.11);
     --glow-blue: rgba(86, 118, 186, 0.14);
     --shine: rgba(255, 248, 230, 0.42);
+    --on-gold: #0f1a2d;
     --ease: cubic-bezier(.2, .7, .2, 1);
     --font-display: "Cormorant Garamond", "Times New Roman", Georgia, serif;
     --font-body: "Be Vietnam Pro", "Segoe UI", Roboto, Arial, sans-serif;
     color-scheme: dark;
+  }
+  /* Giao diện sáng: nền giấy ngà, chữ xanh mực, vàng chuyển sang đồng để đủ tương phản */
+  :root[data-theme="light"] {
+    --gown: #f5f1e8;
+    --gown-raised: #fffdf8;
+    --paper: #16223a;
+    --muted: #5a6478;
+    --gold: #9a6b16;
+    --gold-soft: rgba(154, 107, 22, 0.10);
+    --line: rgba(22, 34, 58, 0.14);
+    --gold-light: #d9a845;
+    --plate: #ffffff;
+    --gold-hair: rgba(154, 107, 22, 0.35);
+    --glow-gold: rgba(214, 168, 76, 0.22);
+    --glow-blue: rgba(86, 118, 186, 0.10);
+    --shine: rgba(255, 255, 255, 0.5);
+    --on-gold: #ffffff;
+    color-scheme: light;
   }
 
   html { background: var(--gown); }
@@ -176,20 +195,22 @@
   }
 
   /* ---------- Thanh trên: logo trường + MSSV ---------- */
+  /* máy tính: logo | MSSV | nút; điện thoại: logo | nút, MSSV xuống dòng */
   .topbar {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px 24px;
+    gap: 12px 20px;
     margin-bottom: -16px;
   }
   .school-plate {
     display: inline-flex;
     align-items: center;
     background: var(--plate);
+    border: 1px solid var(--line);
     border-radius: 6px;
     padding: 8px 14px;
+    justify-self: start;
   }
   .school-plate img { display: block; height: 44px; width: auto; }
   .topbar .mssv {
@@ -198,7 +219,50 @@
     letter-spacing: 0.14em;
     text-transform: uppercase;
     font-weight: 600;
+    justify-self: end;
+    text-align: right;
   }
+  @media (max-width: 760px) {
+    .topbar { grid-template-columns: auto auto; }
+    .topbar .controls { justify-self: end; }
+    .topbar .mssv { grid-column: 1 / -1; justify-self: start; text-align: left; order: 3; }
+  }
+
+  /* Nút đổi ngôn ngữ + sáng/tối */
+  .controls { display: flex; align-items: center; gap: 8px; }
+  .lang { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 999px; }
+  .seg, .theme-btn { font: inherit; cursor: pointer; background: transparent; border: 0; color: var(--muted); }
+  .seg {
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    padding: 6px 12px;
+    border-radius: 999px;
+    transition: background-color .2s, color .2s;
+  }
+  .seg:hover { color: var(--paper); }
+  .seg[aria-pressed="true"] { background: var(--gold); color: var(--on-gold); }
+  .theme-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    color: var(--gold);
+    display: grid;
+    place-items: center;
+    transition: border-color .2s, background-color .2s;
+  }
+  .theme-btn:hover { border-color: var(--gold); background: var(--gold-soft); }
+  .theme-btn svg { width: 18px; height: 18px; }
+  .ic-moon { display: none; }
+  :root[data-theme="light"] .ic-moon { display: block; }
+  :root[data-theme="light"] .ic-sun { display: none; }
+  .seg:focus-visible, .theme-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+  /* Hình vẽ lấy màu vàng/đồng theo giao diện */
+  .tassel, .seal, .laurel { color: var(--gold); }
+  .laurel .leaf { fill: var(--gold); }
+  .laurel .leaf.hi { fill: var(--gold-light); }
 
   /* Ảnh chân dung: khung tròn, viền vàng xoay chậm */
   .portrait {
@@ -439,9 +503,9 @@
     background: transparent;
     transition: border-color .2s, background-color .2s;
   }
-  .btn.primary { background: var(--gold); border-color: var(--gold); color: var(--gown); }
+  .btn.primary { background: var(--gold); border-color: var(--gold); color: var(--on-gold); }
   .btn:hover { border-color: var(--gold); background: var(--gold-soft); }
-  .btn.primary:hover { background: var(--paper); border-color: var(--paper); }
+  .btn.primary:hover { background: var(--gold); border-color: var(--gold); filter: brightness(1.1); }
   .btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
   .btn .arrow { font-size: 1.1rem; line-height: 1; }
 
@@ -527,12 +591,35 @@
     .tassel { transform: rotate(-9deg); }
   }
 </style>
+<script>
+  // Áp giao diện đã chọn trước khi vẽ trang để không bị nháy màu (mặc định: tối)
+  try {
+    document.documentElement.dataset.theme = localStorage.getItem("thiep-theme") === "light" ? "light" : "dark";
+  } catch (e) {
+    document.documentElement.dataset.theme = "dark";
+  }
+</script>
 </head>
 <body>
 <main class="wrap">
   <header class="topbar">
-    <span class="school-plate"><img src="fpt-logo.svg" alt="Trường Đại học FPT" width="113" height="44"></span>
-    <span class="mssv">Tân khoa · MSSV SE180473</span>
+    <span class="school-plate"><img src="fpt-logo.svg" alt="Trường Đại học FPT" data-i18n-attr="alt:logoAlt" width="113" height="44"></span>
+    <span class="mssv" data-i18n="mssv">Tân khoa · MSSV SE180473</span>
+    <div class="controls">
+      <div class="lang" role="group" aria-label="Chọn ngôn ngữ" data-i18n-attr="aria-label:langAria">
+        <button type="button" class="seg" data-lang="vi" aria-pressed="true">VI</button>
+        <button type="button" class="seg" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <button type="button" class="theme-btn" id="theme-btn" aria-label="Chuyển sang giao diện sáng">
+        <svg class="ic-sun" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.2" fill="currentColor"/>
+          <path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <svg class="ic-moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="currentColor"/>
+        </svg>
+      </button>
+    </div>
   </header>
 
   <section class="hero" aria-labelledby="tieu-de">
@@ -540,41 +627,41 @@
       <div class="portrait-wrap">
         <svg class="laurel" id="laurel" viewBox="0 0 200 200" aria-hidden="true"></svg>
         <figure class="portrait">
-          <div class="frame"><img src="tri.jpg" alt="Ảnh chân dung Lê Đức Trí" width="800" height="800"></div>
+          <div class="frame"><img src="tri.jpg" alt="Ảnh chân dung Lê Đức Trí" data-i18n-attr="alt:portraitAlt" width="800" height="800"></div>
         </figure>
       </div>
-      <div class="eyebrow">Thư mời chung vui</div>
-      <h1 id="tieu-de">Lễ tốt nghiệp <span class="name" data-field="name">Lê Đức Trí</span></h1>
-      <p class="degree"><strong>Ngành Kỹ thuật phần mềm</strong> · Trường Đại học FPT TP. Hồ Chí Minh</p>
-      <p class="note">
+      <div class="eyebrow" data-i18n="eyebrow">Thư mời chung vui</div>
+      <h1 id="tieu-de" data-i18n-html="h1">Lễ tốt nghiệp <span class="name">Lê Đức Trí</span></h1>
+      <p class="degree" data-i18n-html="degree"><strong>Ngành Kỹ thuật phần mềm</strong> · Trường Đại học FPT TP. Hồ Chí Minh</p>
+      <p class="note" data-i18n="note">
         Sau những năm học, những đêm chạy deadline và đồ án FoodResQ, Trí sắp được đội mũ cử nhân và chuyển tua.
         Trí rất mong có bạn ở đó để cùng chụp chung một tấm ảnh và chia vui trong ngày này.
       </p>
       <div class="sign">— Đức Trí</div>
     </div>
 
-    <aside class="datecard" aria-label="Ngày tổ chức">
+    <aside class="datecard" aria-label="Ngày tổ chức" data-i18n-attr="aria-label:dateAria">
       <svg class="tassel" viewBox="0 0 46 150" aria-hidden="true">
-        <line x1="23" y1="0" x2="23" y2="86" stroke="#d6a84c" stroke-width="2.5"/>
-        <circle cx="23" cy="90" r="7" fill="#d6a84c"/>
-        <path d="M14 96 H32 L38 148 H8 Z" fill="#d6a84c"/>
+        <line x1="23" y1="0" x2="23" y2="86" stroke="currentColor" stroke-width="2.5"/>
+        <circle cx="23" cy="90" r="7" fill="currentColor"/>
+        <path d="M14 96 H32 L38 148 H8 Z" fill="currentColor"/>
         <path d="M17 104 V146 M23 104 V147 M29 104 V146" stroke="#0f1a2d" stroke-width="1.2" opacity=".35"/>
       </svg>
-      <div class="weekday">Thứ Bảy</div>
-      <div class="bigdate">07.11<span class="year">2026</span><span class="hour">10:00 sáng</span></div>
+      <div class="weekday" data-i18n="weekday">Thứ Bảy</div>
+      <div class="bigdate"><span data-i18n="bigDate">07.11</span><span class="year">2026</span><span class="hour" data-i18n="hour">10:00 sáng</span></div>
       <svg class="seal" viewBox="0 0 120 120" aria-hidden="true">
         <defs>
           <path id="seal-path" d="M60 60 m-47 0 a47 47 0 1 1 94 0 a47 47 0 1 1 -94 0"/>
         </defs>
-        <circle cx="60" cy="60" r="58" fill="none" stroke="#d6a84c" stroke-width="1.2"/>
-        <circle cx="60" cy="60" r="36" fill="none" stroke="#d6a84c" stroke-width="0.8" opacity=".6"/>
+        <circle cx="60" cy="60" r="58" fill="none" stroke="currentColor" stroke-width="1.2"/>
+        <circle cx="60" cy="60" r="36" fill="none" stroke="currentColor" stroke-width="0.8" opacity=".6"/>
         <g class="ring-text">
-          <text><textPath href="#seal-path" textLength="290" lengthAdjust="spacing">TÂN KHOA 2026 ✦ KỸ THUẬT PHẦN MỀM ✦ ĐẠI HỌC FPT ✦</textPath></text>
+          <text><textPath href="#seal-path" textLength="290" lengthAdjust="spacing" data-i18n="seal">TÂN KHOA 2026 ✦ KỸ THUẬT PHẦN MỀM ✦ ĐẠI HỌC FPT ✦</textPath></text>
         </g>
-        <g fill="#d6a84c">
+        <g fill="currentColor">
           <path d="M60 46 80 55 60 64 40 55Z"/>
           <path d="M48 60v7c0 3 5 6 12 6s12-3 12-6v-7l-12 5.5Z" opacity=".85"/>
-          <path d="M76 57v11" stroke="#d6a84c" stroke-width="1.4"/>
+          <path d="M76 57v11" stroke="currentColor" stroke-width="1.4"/>
           <path d="M74 68h4l1 6h-6Z"/>
         </g>
       </svg>
@@ -582,71 +669,71 @@
         <span class="num" id="cd-num">16</span>
         <span class="label" id="cd-label">ngày nữa là tới lễ</span>
       </div>
-      <p class="tassel-caption">Tua mũ chuyển từ phải sang trái: khoảnh khắc chính thức thành tân khoa.</p>
+      <p class="tassel-caption" data-i18n="tasselCaption">Tua mũ chuyển từ phải sang trái: khoảnh khắc chính thức thành tân khoa.</p>
     </aside>
   </section>
 
   <div class="ornament" aria-hidden="true">
     <svg viewBox="0 0 44 26">
-      <circle cx="3" cy="13" r="1.6" fill="#d6a84c"/>
-      <path d="M22 3 36 9.5 22 16 8 9.5Z" fill="#d6a84c"/>
-      <path d="M14 13v5c0 2 3.6 4 8 4s8-2 8-4v-5l-8 3.6Z" fill="#d6a84c" opacity=".8"/>
-      <path d="M33 11v8" stroke="#d6a84c" stroke-width="1.2"/>
-      <circle cx="41" cy="13" r="1.6" fill="#d6a84c"/>
+      <circle cx="3" cy="13" r="1.6" fill="currentColor"/>
+      <path d="M22 3 36 9.5 22 16 8 9.5Z" fill="currentColor"/>
+      <path d="M14 13v5c0 2 3.6 4 8 4s8-2 8-4v-5l-8 3.6Z" fill="currentColor" opacity=".8"/>
+      <path d="M33 11v8" stroke="currentColor" stroke-width="1.2"/>
+      <circle cx="41" cy="13" r="1.6" fill="currentColor"/>
     </svg>
   </div>
 
   <section class="details">
     <div>
-      <h2 data-reveal>Thông tin buổi lễ</h2>
+      <h2 data-reveal data-i18n="detailsTitle">Thông tin buổi lễ</h2>
       <dl>
         <div class="row" data-reveal>
-          <dt>Ngày</dt>
-          <dd>Thứ Bảy, 07 tháng 11 năm 2026</dd>
+          <dt data-i18n="dtDate">Ngày</dt>
+          <dd data-i18n="dateFull">Thứ Bảy, 07 tháng 11 năm 2026</dd>
         </div>
         <div class="row" data-reveal>
-          <dt>Giờ</dt>
+          <dt data-i18n="dtTime">Giờ</dt>
           <dd id="time-value">10:00 sáng</dd>
         </div>
         <div class="row" data-reveal>
-          <dt>Địa điểm</dt>
+          <dt data-i18n="dtVenue">Địa điểm</dt>
           <dd id="venue-value">Trường Đại học FPT TP. Hồ Chí Minh<span class="sub">Lô E2a-7, Đường D1, Khu Công nghệ cao, TP. Hồ Chí Minh</span></dd>
         </div>
         <div class="row" data-reveal>
-          <dt>Tân khoa</dt>
-          <dd>Lê Đức Trí<span class="sub">Kỹ thuật phần mềm · Đồ án FoodResQ (SP26SE088)</span></dd>
+          <dt data-i18n="dtGrad">Tân khoa</dt>
+          <dd>Lê Đức Trí<span class="sub" data-i18n="gradSub">Kỹ thuật phần mềm · Đồ án FoodResQ (SP26SE088)</span></dd>
         </div>
         <div class="row" data-reveal>
-          <dt>MSSV</dt>
+          <dt data-i18n="dtId">MSSV</dt>
           <dd class="mssv-value">SE180473</dd>
         </div>
       </dl>
     </div>
 
     <div class="actions">
-      <h2 data-reveal>Giữ lịch giúp Trí</h2>
-      <p data-reveal>Lưu ngày này vào lịch để không quên nhé.</p>
+      <h2 data-reveal data-i18n="saveTitle">Giữ lịch giúp Trí</h2>
+      <p data-reveal data-i18n="saveText">Lưu ngày này vào lịch để không quên nhé.</p>
       <a class="btn primary" id="cal-link" data-reveal target="_blank" rel="noopener"
          href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=L%E1%BB%85%20t%E1%BB%91t%20nghi%E1%BB%87p%20c%E1%BB%A7a%20L%C3%AA%20%C4%90%E1%BB%A9c%20Tr%C3%AD&amp;dates=20261107T030000Z%2F20261107T060000Z">
-        <span>Thêm vào Google Calendar</span><span class="arrow" aria-hidden="true">→</span>
+        <span data-i18n="calBtn">Thêm vào Google Calendar</span><span class="arrow" aria-hidden="true">→</span>
       </a>
       <a class="btn" id="map-link" data-reveal target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Tr%C6%B0%E1%BB%9Dng%20%C4%90%E1%BA%A1i%20h%E1%BB%8Dc%20FPT%20TP.%20H%E1%BB%93%20Ch%C3%AD%20Minh">
-        <span>Chỉ đường tới nơi tổ chức</span><span class="arrow" aria-hidden="true">→</span>
+        <span data-i18n="mapBtn">Chỉ đường tới nơi tổ chức</span><span class="arrow" aria-hidden="true">→</span>
       </a>
       <button class="btn" id="tung-mu" type="button" data-reveal>
-        <span>Tung mũ chúc mừng Trí</span><span class="arrow" aria-hidden="true">✦</span>
+        <span data-i18n="tossBtn">Tung mũ chúc mừng Trí</span><span class="arrow" aria-hidden="true">✦</span>
       </button>
     </div>
   </section>
 
   <section class="thanks" data-reveal>
     <span class="mark" aria-hidden="true">“</span>
-    <p>Cảm ơn gia đình, thầy cô và bạn bè đã đi cùng Trí suốt những năm học. Ngày 07.11 sẽ trọn vẹn hơn khi có bạn ở đó.</p>
-    <p class="who">Lê Đức Trí · K18 Kỹ thuật phần mềm</p>
+    <p data-i18n="thanks">Cảm ơn gia đình, thầy cô và bạn bè đã đi cùng Trí suốt những năm học. Ngày 07.11 sẽ trọn vẹn hơn khi có bạn ở đó.</p>
+    <p class="who" data-i18n="thanksWho">Lê Đức Trí · K18 Kỹ thuật phần mềm</p>
   </section>
 
   <footer data-reveal>
-    <span>Hẹn gặp bạn lúc 10:00 sáng ngày 07.11.2026</span>
+    <span data-i18n="footer">Hẹn gặp bạn lúc 10:00 sáng ngày 07.11.2026</span>
     <span class="sign">Đức Trí</span>
   </footer>
 </main>
@@ -660,10 +747,108 @@
     date: { y: 2026, m: 11, d: 7 },
     time: "10:00",     // giờ bắt đầu (giờ Việt Nam)
     endTime: "",       // chưa có giờ kết thúc → lịch Google tạm giữ 3 tiếng
-    venue: "Trường Đại học FPT TP. Hồ Chí Minh",
-    venueAddress: "Lô E2a-7, Đường D1, Khu Công nghệ cao, TP. Hồ Chí Minh",
     mapQuery: "Trường Đại học FPT TP. Hồ Chí Minh",
   };
+
+  // Chữ trên thiệp theo ngôn ngữ (data-i18n = textContent, data-i18n-html = innerHTML, data-i18n-attr = "thuộc-tính:khoá")
+  const I18N = {
+    vi: {
+      title: "Lễ Tốt Nghiệp Đức Trí",
+      logoAlt: "Trường Đại học FPT",
+      mssv: "Tân khoa · MSSV SE180473",
+      langAria: "Chọn ngôn ngữ",
+      toLight: "Chuyển sang giao diện sáng",
+      toDark: "Chuyển sang giao diện tối",
+      portraitAlt: "Ảnh chân dung Lê Đức Trí",
+      eyebrow: "Thư mời chung vui",
+      h1: 'Lễ tốt nghiệp <span class="name">Lê Đức Trí</span>',
+      degree: "<strong>Ngành Kỹ thuật phần mềm</strong> · Trường Đại học FPT TP. Hồ Chí Minh",
+      note: "Sau những năm học, những đêm chạy deadline và đồ án FoodResQ, Trí sắp được đội mũ cử nhân và chuyển tua. Trí rất mong có bạn ở đó để cùng chụp chung một tấm ảnh và chia vui trong ngày này.",
+      dateAria: "Ngày tổ chức",
+      weekday: "Thứ Bảy",
+      bigDate: "07.11",
+      hour: "10:00 sáng",
+      seal: "TÂN KHOA 2026 ✦ KỸ THUẬT PHẦN MỀM ✦ ĐẠI HỌC FPT ✦",
+      tasselCaption: "Tua mũ chuyển từ phải sang trái: khoảnh khắc chính thức thành tân khoa.",
+      detailsTitle: "Thông tin buổi lễ",
+      dtDate: "Ngày",
+      dtTime: "Giờ",
+      dtVenue: "Địa điểm",
+      dtGrad: "Tân khoa",
+      dtId: "MSSV",
+      dateFull: "Thứ Bảy, 07 tháng 11 năm 2026",
+      venue: "Trường Đại học FPT TP. Hồ Chí Minh",
+      venueAddress: "Lô E2a-7, Đường D1, Khu Công nghệ cao, TP. Hồ Chí Minh",
+      gradSub: "Kỹ thuật phần mềm · Đồ án FoodResQ (SP26SE088)",
+      saveTitle: "Giữ lịch giúp Trí",
+      saveText: "Lưu ngày này vào lịch để không quên nhé.",
+      calBtn: "Thêm vào Google Calendar",
+      mapBtn: "Chỉ đường tới nơi tổ chức",
+      tossBtn: "Tung mũ chúc mừng Trí",
+      thanks: "Cảm ơn gia đình, thầy cô và bạn bè đã đi cùng Trí suốt những năm học. Ngày 07.11 sẽ trọn vẹn hơn khi có bạn ở đó.",
+      thanksWho: "Lê Đức Trí · K18 Kỹ thuật phần mềm",
+      footer: "Hẹn gặp bạn lúc 10:00 sáng ngày 07.11.2026",
+      calText: "Lễ tốt nghiệp của Lê Đức Trí",
+      calDetails: "Lễ tốt nghiệp ngành Kỹ thuật phần mềm của Lê Đức Trí, Trường Đại học FPT TP. Hồ Chí Minh. Hẹn gặp bạn!",
+      cdDays: "ngày nữa là tới lễ",
+      cdTomorrow: "ngày nữa, mai là lễ rồi",
+      cdHours: "giờ nữa là bắt đầu",
+      cdMinutes: "phút nữa là bắt đầu",
+      cdToday: "Hôm nay",
+      cdTodayLabel: "là ngày lễ, hẹn gặp bạn",
+      cdAfterNum: "07.11",
+      cdAfter: "Cảm ơn bạn đã đến chung vui cùng Trí",
+    },
+    en: {
+      title: "Đức Trí's Graduation",
+      logoAlt: "FPT University",
+      mssv: "Graduate · Student ID SE180473",
+      langAria: "Choose language",
+      toLight: "Switch to light theme",
+      toDark: "Switch to dark theme",
+      portraitAlt: "Portrait of Lê Đức Trí",
+      eyebrow: "You're invited",
+      h1: 'Graduation of <span class="name">Lê Đức Trí</span>',
+      degree: "<strong>Software Engineering</strong> · FPT University, Ho Chi Minh City",
+      note: "After years of classes, late-night deadlines and the FoodResQ capstone project, Trí is about to wear the graduation cap and turn the tassel. Trí would love to have you there to celebrate and take a photo together.",
+      dateAria: "Ceremony date",
+      weekday: "Saturday",
+      bigDate: "Nov 7",
+      hour: "10:00 AM",
+      seal: "CLASS OF 2026 ✦ SOFTWARE ENGINEERING ✦ FPTU ✦",
+      tasselCaption: "The tassel moves from right to left: the moment a student officially becomes a graduate.",
+      detailsTitle: "Ceremony details",
+      dtDate: "Date",
+      dtTime: "Time",
+      dtVenue: "Venue",
+      dtGrad: "Graduate",
+      dtId: "Student ID",
+      dateFull: "Saturday, November 7, 2026",
+      venue: "FPT University, Ho Chi Minh City",
+      venueAddress: "Lot E2a-7, D1 Street, Saigon Hi-Tech Park, Ho Chi Minh City",
+      gradSub: "Software Engineering · Capstone project FoodResQ (SP26SE088)",
+      saveTitle: "Save the date",
+      saveText: "Add it to your calendar so you don't forget.",
+      calBtn: "Add to Google Calendar",
+      mapBtn: "Get directions",
+      tossBtn: "Toss a cap for Trí",
+      thanks: "Thank you to family, teachers and friends for being with Trí through these years of study. November 7 will feel complete with you there.",
+      thanksWho: "Lê Đức Trí · K18 Software Engineering",
+      footer: "See you at 10:00 AM on November 7, 2026",
+      calText: "Lê Đức Trí's graduation ceremony",
+      calDetails: "Lê Đức Trí's graduation ceremony (Software Engineering), FPT University, Ho Chi Minh City. See you there!",
+      cdDays: "days to go",
+      cdTomorrow: "day to go, see you tomorrow",
+      cdHours: "hours until it starts",
+      cdMinutes: "minutes until it starts",
+      cdToday: "Today",
+      cdTodayLabel: "is the day, see you there",
+      cdAfterNum: "Nov 7",
+      cdAfter: "Thank you for celebrating with Trí",
+    },
+  };
+  let LANG = "vi";
+  const T = () => I18N[LANG];
 
   const pad = (n) => String(n).padStart(2, "0");
 
@@ -679,28 +864,32 @@
       pad(t.getUTCHours()) + pad(t.getUTCMinutes()) + "00Z";
   }
 
+  // "10:00" → "10:00 sáng" (vi) / "10:00 AM" (en)
+  function formatTime(hhmm) {
+    const [h, m] = hhmm.split(":").map(Number);
+    if (LANG === "en") return `${h % 12 || 12}:${pad(m)} ${h < 12 ? "AM" : "PM"}`;
+    const buoi = h < 11 ? "sáng" : h < 13 ? "trưa" : h < 18 ? "chiều" : "tối";
+    return `${hhmm} ${buoi}`;
+  }
+
   function render() {
+    const dict = T();
     const timeEl = document.getElementById("time-value");
     if (EVENT.time) {
-      const hour = Number(EVENT.time.split(":")[0]);
-      const buoi = hour < 11 ? "sáng" : hour < 13 ? "trưa" : hour < 18 ? "chiều" : "tối";
-      timeEl.textContent = EVENT.endTime ? `${EVENT.time} – ${EVENT.endTime}` : `${EVENT.time} ${buoi}`;
+      timeEl.textContent = EVENT.endTime
+        ? `${formatTime(EVENT.time)} – ${formatTime(EVENT.endTime)}`
+        : formatTime(EVENT.time);
     }
 
     const venueEl = document.getElementById("venue-value");
     const mapLink = document.getElementById("map-link");
-    if (EVENT.venue) {
-      venueEl.textContent = EVENT.venue;
-      if (EVENT.venueAddress) {
-        const sub = document.createElement("span");
-        sub.className = "sub";
-        sub.textContent = EVENT.venueAddress;
-        venueEl.appendChild(sub);
-      }
-      mapLink.href = "https://www.google.com/maps/search/?api=1&query=" +
-        encodeURIComponent(EVENT.mapQuery || EVENT.venueAddress || EVENT.venue);
-      mapLink.hidden = false;
-    }
+    venueEl.textContent = dict.venue;
+    const sub = document.createElement("span");
+    sub.className = "sub";
+    sub.textContent = dict.venueAddress;
+    venueEl.appendChild(sub);
+    mapLink.href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(EVENT.mapQuery);
+    mapLink.hidden = false;
 
     const ymd = `${EVENT.date.y}${pad(EVENT.date.m)}${pad(EVENT.date.d)}`;
     const nextDay = new Date(Date.UTC(EVENT.date.y, EVENT.date.m - 1, EVENT.date.d + 1));
@@ -713,12 +902,11 @@
     }
     const params = new URLSearchParams({
       action: "TEMPLATE",
-      text: `Lễ tốt nghiệp của ${EVENT.name}`,
+      text: dict.calText,
       dates,
-      details: `Lễ tốt nghiệp ngành Kỹ thuật phần mềm của ${EVENT.name}, Trường Đại học FPT TP. Hồ Chí Minh. Hẹn gặp bạn!`,
+      details: dict.calDetails,
     });
-    const loc = [EVENT.venue, EVENT.venueAddress].filter(Boolean).join(", ");
-    if (loc) params.set("location", loc);
+    params.set("location", `${dict.venue}, ${dict.venueAddress}`);
     document.getElementById("cal-link").href = "https://calendar.google.com/calendar/render?" + params.toString();
   }
 
@@ -730,17 +918,18 @@
     const dayEnd = dayStart + 24 * 3600_000;
     const start = EVENT.time ? vnToUtc(EVENT.time) : dayStart;
 
+    const dict = T();
     if (now >= dayEnd) {
-      num.textContent = "07.11";
-      label.textContent = "Cảm ơn bạn đã đến chung vui cùng Trí";
+      num.textContent = dict.cdAfterNum;
+      label.textContent = dict.cdAfter;
     } else if (now >= dayStart) {
       if (EVENT.time && now < start) {
         const mins = Math.ceil((start - now) / 60_000);
         num.textContent = mins >= 60 ? `${Math.floor(mins / 60)}:${pad(mins % 60)}` : String(mins);
-        label.textContent = mins >= 60 ? "giờ nữa là bắt đầu" : "phút nữa là bắt đầu";
+        label.textContent = mins >= 60 ? dict.cdHours : dict.cdMinutes;
       } else {
-        num.textContent = "Hôm nay";
-        label.textContent = "là ngày lễ, hẹn gặp bạn";
+        num.textContent = dict.cdToday;
+        label.textContent = dict.cdTodayLabel;
       }
     } else {
       const days = Math.ceil((dayStart - now) / 86_400_000);
@@ -750,12 +939,27 @@
       } else if (!counting) {
         num.textContent = String(days);
       }
-      label.textContent = days === 1 ? "ngày nữa, mai là lễ rồi" : "ngày nữa là tới lễ";
+      label.textContent = days === 1 ? dict.cdTomorrow : dict.cdDays;
     }
   }
 
   // ---------- Chuyển động ----------
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Màu canvas lấy từ biến CSS để đổi theo giao diện sáng / tối
+  let THEME = {};
+  function readThemeColors() {
+    const cs = getComputedStyle(document.documentElement);
+    const v = (n) => cs.getPropertyValue(n).trim();
+    THEME = {
+      gold: v("--gold"),
+      goldLight: v("--gold-light"),
+      paper: v("--paper"),
+      muted: v("--muted"),
+      light: document.documentElement.dataset.theme === "light",
+    };
+  }
+  readThemeColors();
   let countedUp = false;
   let counting = false;
 
@@ -804,7 +1008,7 @@
   // Pháo giấy + mũ cử nhân trên canvas
   const canvas = document.getElementById("phao-giay");
   const ctx = canvas.getContext("2d");
-  const PALETTE = ["#d6a84c", "#efe8da", "#f7df9f", "#a6b0c2", "#d6a84c"];
+  const palette = () => [THEME.gold, THEME.paper, THEME.goldLight, THEME.muted, THEME.gold];
   const GRAVITY = 520;
   let parts = [];
   let running = false;
@@ -837,7 +1041,7 @@
         flip: Math.random() * Math.PI * 2,
         size: cap ? 18 + Math.random() * 8 : 6 + Math.random() * 6,
         cap,
-        color: PALETTE[(Math.random() * PALETTE.length) | 0],
+        color: palette()[(Math.random() * 5) | 0],
         life: 0,
         ttl: 3.2 + Math.random() * 1.6,
       });
@@ -851,8 +1055,8 @@
 
   function drawCap(p) {
     const s = p.size;
-    // mặt mũ (hình thoi)
-    ctx.fillStyle = "#efe8da";
+    // mặt mũ (hình thoi): ngà trên nền tối, xanh mực trên nền sáng
+    ctx.fillStyle = THEME.paper;
     ctx.beginPath();
     ctx.moveTo(0, -s * 0.28);
     ctx.lineTo(s * 0.5, 0);
@@ -861,17 +1065,17 @@
     ctx.closePath();
     ctx.fill();
     // thân mũ
-    ctx.fillStyle = "#a6b0c2";
+    ctx.fillStyle = THEME.muted;
     ctx.fillRect(-s * 0.26, s * 0.1, s * 0.52, s * 0.22);
     // tua
-    ctx.strokeStyle = "#d6a84c";
+    ctx.strokeStyle = THEME.gold;
     ctx.lineWidth = 1.5;
     ctx.beginPath();
     ctx.moveTo(0, 0);
     ctx.lineTo(s * 0.38, s * 0.05);
     ctx.lineTo(s * 0.38, s * 0.42);
     ctx.stroke();
-    ctx.fillStyle = "#d6a84c";
+    ctx.fillStyle = THEME.gold;
     ctx.fillRect(s * 0.32, s * 0.4, s * 0.12, s * 0.16);
   }
 
@@ -949,7 +1153,7 @@
       const [ex, ey] = pt(END);
       el("path", {
         d: `M${mx(sx).toFixed(1)} ${sy.toFixed(1)} A${r} ${r} 0 0 ${side === 1 ? 1 : 0} ${mx(ex).toFixed(1)} ${ey.toFixed(1)}`,
-        fill: "none", stroke: "#d6a84c", "stroke-width": "1.3", opacity: ".8",
+        fill: "none", stroke: "currentColor", "stroke-width": "1.3", opacity: ".8",
       });
       for (let i = 0; i < LEAVES; i++) {
         const t = i / (LEAVES - 1);
@@ -966,17 +1170,16 @@
           // nhóm giữ vị trí + góc; hiệu ứng "mọc" chỉ phóng to chiếc lá bên trong
           const g = el("g", { transform: `translate(${mx(lx).toFixed(1)} ${ly.toFixed(1)}) rotate(${rot.toFixed(1)})` });
           const leaf = el("ellipse", {
-            class: "leaf",
+            class: light ? "leaf hi" : "leaf",
             cx: "0", cy: "0",
             rx: rx.toFixed(1), ry: ry.toFixed(1),
-            fill: light ? "#f7df9f" : "#d6a84c",
             opacity: (0.75 + 0.25 * (1 - t)).toFixed(2),
           }, g);
           leaf.style.animationDelay = `${(0.3 + t * 0.9 + (tilt > 0 ? 0.06 : 0)).toFixed(2)}s`;
         }
         if (i % 3 === 1) {
           const [bx, by] = [cx + (r + 9) * Math.cos(rad(deg)), cy + (r + 9) * Math.sin(rad(deg))];
-          const berry = el("circle", { class: "leaf", cx: mx(bx).toFixed(1), cy: by.toFixed(1), r: "1.8", fill: "#f7df9f" });
+          const berry = el("circle", { class: "leaf hi", cx: mx(bx).toFixed(1), cy: by.toFixed(1), r: "1.8" });
           berry.style.animationDelay = `${(0.4 + t * 0.9).toFixed(2)}s`;
         }
       }
@@ -1009,8 +1212,9 @@
     sctx.clearRect(0, 0, SW, SH);
     for (const s of stars) {
       const a = reduceMotion ? s.base : s.base * (0.5 + 0.5 * Math.sin((t / 1000) * s.sp + s.ph));
-      sctx.globalAlpha = Math.max(0, a);
-      sctx.fillStyle = s.gold ? "#f7df9f" : "#efe8da";
+      // nền sáng: sao nhạt hơn, chấm thường dùng màu xám xanh thay vì màu chữ
+      sctx.globalAlpha = Math.max(0, a) * (THEME.light ? 0.7 : 1);
+      sctx.fillStyle = s.gold ? THEME.goldLight : THEME.light ? THEME.muted : THEME.paper;
       const x = s.nx * SW, y = s.ny * SH;
       if (s.spark) {
         const L = s.r * 4.5;
@@ -1042,8 +1246,60 @@
     burst(e.clientX, e.clientY, 14, { angle: -Math.PI / 2, spread: Math.PI * 1.6, speed: 320, capRatio: 0 });
   });
 
-  render();
-  tick();
+  // ---------- Ngôn ngữ + giao diện sáng/tối ----------
+  const themeBtn = document.getElementById("theme-btn");
+  const currentTheme = () => (document.documentElement.dataset.theme === "light" ? "light" : "dark");
+
+  function applyLang(lang, save) {
+    LANG = lang === "en" ? "en" : "vi";
+    const dict = T();
+    document.documentElement.lang = LANG;
+    document.title = dict.title;
+    document.querySelectorAll("[data-i18n]").forEach((el) => { el.textContent = dict[el.dataset.i18n]; });
+    document.querySelectorAll("[data-i18n-html]").forEach((el) => { el.innerHTML = dict[el.dataset.i18nHtml]; });
+    document.querySelectorAll("[data-i18n-attr]").forEach((el) => {
+      const [attr, key] = el.dataset.i18nAttr.split(":");
+      el.setAttribute(attr, dict[key]);
+    });
+    document.querySelectorAll("[data-lang]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === LANG)));
+    themeBtn.setAttribute("aria-label", currentTheme() === "light" ? dict.toDark : dict.toLight);
+    render();
+    tick();
+    if (save) {
+      try { localStorage.setItem("thiep-lang", LANG); } catch (e) { /* trình duyệt chặn lưu trữ */ }
+      // link tiếng Anh có đuôi #en để gửi riêng cho bạn bè nước ngoài
+      try { history.replaceState(null, "", LANG === "en" ? "#en" : location.pathname + location.search); } catch (e) { /* bỏ qua */ }
+    }
+  }
+
+  function applyTheme(theme, save) {
+    document.documentElement.dataset.theme = theme === "light" ? "light" : "dark";
+    themeBtn.setAttribute("aria-label", theme === "light" ? T().toDark : T().toLight);
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute("content", theme === "light" ? "#f5f1e8" : "#0f1a2d");
+    readThemeColors();
+    drawSky(performance.now());
+    if (save) {
+      try { localStorage.setItem("thiep-theme", theme); } catch (e) { /* trình duyệt chặn lưu trữ */ }
+    }
+  }
+
+  // Đổi sáng/tối hoặc ngôn ngữ có hiệu ứng chuyển mờ ở trình duyệt hỗ trợ
+  const withTransition = (fn) => (document.startViewTransition && !reduceMotion ? document.startViewTransition(fn) : fn());
+  themeBtn.addEventListener("click", () => {
+    withTransition(() => applyTheme(currentTheme() === "light" ? "dark" : "light", true));
+  });
+  document.querySelectorAll("[data-lang]").forEach((b) => {
+    b.addEventListener("click", () => {
+      if (b.dataset.lang !== LANG) withTransition(() => applyLang(b.dataset.lang, true));
+    });
+  });
+
+  let initialLang = "vi";
+  try { initialLang = localStorage.getItem("thiep-lang") || "vi"; } catch (e) { /* bỏ qua */ }
+  if (location.hash === "#en") initialLang = "en";
+  if (location.hash === "#vi") initialLang = "vi";
+  applyLang(initialLang, false);
   setInterval(tick, 30_000);
   if (!reduceMotion) setTimeout(celebrate, 1100);
 </script>
