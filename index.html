@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Lễ Tốt Nghiệp Đức Trí</title>
-<meta name="description" content="Trí trân trọng mời bạn đến chung vui lễ tốt nghiệp ngành Kỹ thuật phần mềm, Thứ Bảy 07.11.2026 tại Trường Đại học FPT TP. Hồ Chí Minh.">
+<meta name="description" content="Trí trân trọng mời bạn đến chung vui lễ tốt nghiệp ngành Kỹ thuật phần mềm, 10:00 sáng Thứ Bảy 07.11.2026 tại Trường Đại học FPT TP. Hồ Chí Minh.">
 <meta name="theme-color" content="#0f1a2d">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="vi_VN">
 <meta property="og:url" content="https://trimikey.github.io/duc-tri-thu-moi-tot-nghiep/">
 <meta property="og:title" content="Thư mời dự lễ tốt nghiệp của Lê Đức Trí">
-<meta property="og:description" content="Thứ Bảy, 07.11.2026 · Trường Đại học FPT TP. Hồ Chí Minh">
+<meta property="og:description" content="10:00 sáng Thứ Bảy, 07.11.2026 · Trường Đại học FPT TP. Hồ Chí Minh">
 <meta property="og:image" content="https://trimikey.github.io/duc-tri-thu-moi-tot-nghiep/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -361,6 +361,7 @@
     padding-right: 52px;
   }
   .bigdate .year { display: block; font-size: 0.42em; color: var(--muted); letter-spacing: 0.04em; margin-top: 8px; }
+  .bigdate .hour { display: block; font-size: 0.32em; color: var(--gold); letter-spacing: 0.02em; margin-top: 10px; }
   .countdown {
     margin-top: 18px;
     padding-top: 16px;
@@ -559,7 +560,7 @@
         <path d="M17 104 V146 M23 104 V147 M29 104 V146" stroke="#0f1a2d" stroke-width="1.2" opacity=".35"/>
       </svg>
       <div class="weekday">Thứ Bảy</div>
-      <div class="bigdate">07.11<span class="year">2026</span></div>
+      <div class="bigdate">07.11<span class="year">2026</span><span class="hour">10:00 sáng</span></div>
       <svg class="seal" viewBox="0 0 120 120" aria-hidden="true">
         <defs>
           <path id="seal-path" d="M60 60 m-47 0 a47 47 0 1 1 94 0 a47 47 0 1 1 -94 0"/>
@@ -604,7 +605,7 @@
         </div>
         <div class="row" data-reveal>
           <dt>Giờ</dt>
-          <dd id="time-value"><span class="pending">Trí sẽ cập nhật giờ cụ thể</span></dd>
+          <dd id="time-value">10:00 sáng</dd>
         </div>
         <div class="row" data-reveal>
           <dt>Địa điểm</dt>
@@ -621,7 +622,7 @@
       <h2 data-reveal>Giữ lịch giúp Trí</h2>
       <p data-reveal>Lưu ngày này vào lịch để không quên nhé.</p>
       <a class="btn primary" id="cal-link" data-reveal target="_blank" rel="noopener"
-         href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=L%E1%BB%85%20t%E1%BB%91t%20nghi%E1%BB%87p%20c%E1%BB%A7a%20L%C3%AA%20%C4%90%E1%BB%A9c%20Tr%C3%AD&amp;dates=20261107%2F20261108">
+         href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=L%E1%BB%85%20t%E1%BB%91t%20nghi%E1%BB%87p%20c%E1%BB%A7a%20L%C3%AA%20%C4%90%E1%BB%A9c%20Tr%C3%AD&amp;dates=20261107T030000Z%2F20261107T060000Z">
         <span>Thêm vào Google Calendar</span><span class="arrow" aria-hidden="true">→</span>
       </a>
       <a class="btn" id="map-link" data-reveal target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Tr%C6%B0%E1%BB%9Dng%20%C4%90%E1%BA%A1i%20h%E1%BB%8Dc%20FPT%20TP.%20H%E1%BB%93%20Ch%C3%AD%20Minh">
@@ -640,7 +641,7 @@
   </section>
 
   <footer data-reveal>
-    <span>Hẹn gặp bạn ngày 07.11.2026</span>
+    <span>Hẹn gặp bạn lúc 10:00 sáng ngày 07.11.2026</span>
     <span class="sign">Đức Trí</span>
   </footer>
 </main>
@@ -652,8 +653,8 @@
   const EVENT = {
     name: "Lê Đức Trí",
     date: { y: 2026, m: 11, d: 7 },
-    time: "",          // ví dụ "08:00"
-    endTime: "",       // ví dụ "11:30"
+    time: "10:00",     // giờ bắt đầu (giờ Việt Nam)
+    endTime: "",       // chưa có giờ kết thúc → lịch Google tạm giữ 3 tiếng
     venue: "Trường Đại học FPT TP. Hồ Chí Minh",
     venueAddress: "Lô E2a-7, Đường D1, Khu Công nghệ cao, TP. Hồ Chí Minh",
     mapQuery: "Trường Đại học FPT TP. Hồ Chí Minh",
@@ -676,7 +677,9 @@
   function render() {
     const timeEl = document.getElementById("time-value");
     if (EVENT.time) {
-      timeEl.textContent = EVENT.endTime ? `${EVENT.time} – ${EVENT.endTime}` : EVENT.time;
+      const hour = Number(EVENT.time.split(":")[0]);
+      const buoi = hour < 11 ? "sáng" : hour < 13 ? "trưa" : hour < 18 ? "chiều" : "tối";
+      timeEl.textContent = EVENT.endTime ? `${EVENT.time} – ${EVENT.endTime}` : `${EVENT.time} ${buoi}`;
     }
 
     const venueEl = document.getElementById("venue-value");
